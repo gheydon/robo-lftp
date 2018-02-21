@@ -6,13 +6,11 @@
 namespace Heydon\Robo\Task\LFTP\LFTP;
 
 
-use Robo\Common\CommandArguments;
 use Robo\Common\ExecCommand;
 use Robo\Result;
 use Robo\Task\BaseTask;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\Glob;
 use Symfony\Component\Finder\SplFileInfo;
 
 class Mirror extends BaseTask {
@@ -225,9 +223,7 @@ class Mirror extends BaseTask {
       $mirror_args[] = '--parallel=' . $this->parallel;
     }
     if (!empty($this->excludes)) {
-      foreach ($this->excludes as $exclude) {
-        $mirror_args[] = '-x "' . $exclude . '""';
-      }
+      $mirror_args[] = '-x "' . implode('|', $this->excludes) . '"';
     }
     if ($this->dryRun) {
       $mirror_args[] = '--dry-run';
@@ -251,16 +247,16 @@ class Mirror extends BaseTask {
           $option = '--file';
         }
 
-        return $option . ' ' . $a->getRelativePathname();
+        return $option . ' "' . $a->getRelativePathname() . '"';
       }, $files));
 
-      $lftp_command[] = '--target-directory ' . $base_dir;
+      $lftp_command[] = '--target-directory "' . $base_dir . '"';
 
       $lftp_commands[] = implode(' ', $lftp_command);
     }
 
     $command[] = '-e \'' . implode('; ', $lftp_commands) . '; bye\'';
-    $command[] = $this->remote;
+    $command[] = escapeshellarg($this->remote);
 
     $this->executeCommand(implode(' ', $command));
   }
