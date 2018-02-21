@@ -4,8 +4,7 @@
     "type": "robo-tasks",
     "require": {
         "php": ">=5.6.0",
-        "consolidation/robo": "~1",
-        "symfony/filesystem": "^3.0"
+        "consolidation/robo": "~1"
     },
     "license": "GPL-2.0-or-later",
     "authors": [
