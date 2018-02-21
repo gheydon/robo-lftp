@@ -3,7 +3,7 @@
  * @file
  */
 
-namespace Heydon\Robo\Task\LFTP;
+namespace Heydon\Robo\Task\LFTP\LFTP;
 
 
 use Robo\Common\CommandArguments;

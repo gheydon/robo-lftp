@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Heydon\\Robo\\Task\\": "src"
+            "Heydon\\Robo\\Task\\LFTP\\": "src"
         }
     }
 }
