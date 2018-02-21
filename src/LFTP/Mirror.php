@@ -189,9 +189,16 @@ class Mirror extends BaseTask {
   }
 
   public function run() {
-    $command = ['lftp'];
+    $command = [];
     $lftp_commands = [];
     $mirror_args = [];
+
+    if ($lftpexec = $this->findExecutable('lftp')) {
+      $command[] = $lftpexec;
+    }
+    else {
+      return Result::error($this, 'Unable to locate lftp command');
+    }
 
     if ($this->local) {
 //      $lftp_commands[] = 'lcd ' . $this->local;
