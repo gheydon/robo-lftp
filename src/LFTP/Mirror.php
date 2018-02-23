@@ -67,6 +67,20 @@ class Mirror extends BaseTask {
   private $parallel = 1;
 
   /**
+   * Derefernce flag
+   * 
+   * @var bool
+   */
+  private $dereference = FALSE;
+
+  /**
+   * No overwrite
+   *
+   * @var bool
+   */
+  private $noOverwrite = FALSE;
+
+  /**
    * Dry run flag.
    *
    * @var bool
@@ -178,6 +192,16 @@ class Mirror extends BaseTask {
     return $this;
   }
 
+  public function dereference($dereference = TRUE) {
+    $this->dereference = $dereference;
+    return $this;
+  }
+
+  public function noOverwrite($no_overwrite = TRUE) {
+    $this->noOverwrite = $no_overwrite;
+    return $this;
+  }
+  
   public function dryRun($dryrun = TRUE) {
     $this->dryRun = $dryrun;
     return $this;
@@ -262,6 +286,12 @@ class Mirror extends BaseTask {
     }
     if ($this->parallel > 1) {
       $mirror_args[] = '--parallel=' . $this->parallel;
+    }
+    if ($this->dereference) {
+      $mirror_args[] = '--dereference';
+    }
+    if ($this->noOverwrite) {
+      $mirror_args[] = '--no-overwrite';
     }
     if (!empty($this->excludes)) {
       $mirror_args[] = '-x "' . implode('|', $this->excludes) . '"';
