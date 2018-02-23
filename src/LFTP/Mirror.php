@@ -32,6 +32,20 @@ class Mirror extends BaseTask {
   private $remote;
 
   /**
+   * Remote user
+   *
+   * @var string
+   */
+  private $user;
+
+  /**
+   * Password
+   *
+   * @var string
+   */
+  private $pass;
+
+  /**
    * Set if the mirror is going to be reversed.
    *
    * @var bool
@@ -98,8 +112,35 @@ class Mirror extends BaseTask {
     return $this;
   }
 
-  public function remote($remote) {
-    $this->remote = $remote;
+  public function remote(string $remote) {
+    $parts = parse_url($remote);
+
+    if (isset($parts['user'])) {
+      $this->setUser($parts['user']);
+      unset($parts['user']);
+    }
+
+    if (isset($parts['pass'])) {
+      $this->setPassword($parts['pass']);
+      unset($parts['pass']);
+    }
+
+    if (isset($parts['path'])) {
+      $this->targetDirectory($parts['path']);
+      unset($parts['path']);
+    }
+
+    $this->remote = http_build_url($parts);
+    return $this;
+  }
+
+  public function setUser(string $user) {
+    $this->user = $user;
+    return $this;
+  }
+
+  public function setPassword(string $pass) {
+    $this->pass = $pass;
     return $this;
   }
 
@@ -256,6 +297,11 @@ class Mirror extends BaseTask {
     }
 
     $command[] = '-e \'' . implode('; ', $lftp_commands) . '; bye\'';
+
+    if ($this->user) {
+      $command[] = '-u ' . escapeshellarg($this->user) . (isset($this->pass) ? ',' . escapeshellarg($this->pass) : '');
+    }
+
     $command[] = escapeshellarg($this->remote);
 
     $this->executeCommand(implode(' ', $command));
