@@ -1,49 +1,18 @@
 <?php
+namespace Heydon\Robo\Task\LFTP\LFTP;
+
 /**
  * @file
  */
 
-namespace Heydon\Robo\Task\LFTP\LFTP;
-
-
 use Robo\Common\ExecCommand;
 use Robo\Result;
-use Robo\Task\BaseTask;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-class Mirror extends BaseTask {
+class Mirror extends LFTPBase {
 
   use ExecCommand;
-
-  /**
-   * Local directory.
-   *
-   * @var string
-   */
-  private $local;
-
-  /**
-   * remote directory.
-   *
-   * @var string
-   */
-  private $remote;
-
-  /**
-   * Remote user
-   *
-   * @var string
-   */
-  private $user;
-
-  /**
-   * Password
-   *
-   * @var string
-   */
-  private $pass;
 
   /**
    * Set if the mirror is going to be reversed.
@@ -68,7 +37,7 @@ class Mirror extends BaseTask {
 
   /**
    * Derefernce flag
-   * 
+   *
    * @var bool
    */
   private $dereference = FALSE;
@@ -113,48 +82,15 @@ class Mirror extends BaseTask {
    */
   private $excludes = [];
 
-  /**
-   * @param string $local
-   *
-   * @return $this
-   */
-  public function localDirectory(string $local) {
-    $fs = new Filesystem();
-    if ($fs->exists($local)) {
-      $this->local = realpath($local);
-    }
-    return $this;
-  }
-
   public function remote(string $remote) {
-    $parts = parse_url($remote);
-
-    if (isset($parts['user'])) {
-      $this->setUser($parts['user']);
-      unset($parts['user']);
-    }
-
-    if (isset($parts['pass'])) {
-      $this->setPassword($parts['pass']);
-      unset($parts['pass']);
-    }
+    $parts = $this->preRemote($remote);
 
     if (isset($parts['path'])) {
       $this->targetDirectory($parts['path']);
       unset($parts['path']);
     }
 
-    $this->remote = http_build_url($parts);
-    return $this;
-  }
-
-  public function setUser(string $user) {
-    $this->user = $user;
-    return $this;
-  }
-
-  public function setPassword(string $pass) {
-    $this->pass = $pass;
+    $this->postRemote($parts);
     return $this;
   }
 
@@ -162,6 +98,7 @@ class Mirror extends BaseTask {
     $this->targetDirectory = $target_directory;
     return $this;
   }
+  
   /**
    * @param bool $reverse
    *
@@ -201,7 +138,7 @@ class Mirror extends BaseTask {
     $this->noOverwrite = $no_overwrite;
     return $this;
   }
-  
+
   public function dryRun($dryrun = TRUE) {
     $this->dryRun = $dryrun;
     return $this;
