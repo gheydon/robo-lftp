@@ -29,12 +29,14 @@ class sync extends CommandBase {
   public function prepare() {
 
     $base = [];
-    $base = array_reduce($this->directories, function ($result, $a) {
-      $result[dirname($a)][] = $a;
-      return $result;
-    }, $base);
+    foreach (['directories', 'files'] as $type) {
+      $base = array_reduce($this->$type, function ($result, $a) use ($type) {
+        $result[dirname($a)][$type][] = $a;
+        return $result;
+      }, $base);
+    }
 
-    foreach ($base as $base => $directories) {
+    foreach ($base as $base => $items) {
       $command = new mirror($this->parent, $base);
 
       if ($this->dryRun) {
@@ -53,8 +55,15 @@ class sync extends CommandBase {
       $command->setNoOverwrite();
       $command->setVerbose(1);
 
-      foreach ($directories as $directory) {
-        $command->setDirectory($directory);
+      if (!empty($items['directories'])) {
+        foreach ($items['directories'] as $directory) {
+          $command->setDirectory($directory);
+        }
+      }
+      if (!empty($items['files'])) {
+        foreach ($items['files'] as $file) {
+          $command->setFile($file);
+        }
       }
 
       $this->commands[] = $command;
