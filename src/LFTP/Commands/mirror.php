@@ -10,7 +10,7 @@ use Heydon\Robo\Task\LFTP\CommandBase;
 class mirror extends CommandBase {
 
   private $destination;
-  private $verbose = 0;
+  private $verbose;
 
   public function __construct(\Heydon\Robo\Task\LFTP $parent, string $destination) {
     parent::__construct($parent);
@@ -20,8 +20,11 @@ class mirror extends CommandBase {
 
 
   public function prepare() {
-    if ($this->verbose) {
+    if (isset($this->verbose)) {
       $this->option('verbose', $this->verbose, '=');
+    }
+    elseif (($verbosity = $this->parent->getVerbosityLevel()) && $verbosity > 1) {
+      $this->option('verbose', $verbosity-1, '=');
     }
     $this->option('target-directory', $this->destination);
     return parent::prepare();

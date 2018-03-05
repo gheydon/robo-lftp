@@ -9,6 +9,7 @@ use Robo\Common\ExecOneCommand;
 use Robo\Common\TaskIO;
 use Robo\Result;
 use Robo\Task\BaseTask;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\SplFileInfo;
 
 class LFTP extends BaseTask {
@@ -32,11 +33,30 @@ class LFTP extends BaseTask {
   protected $separator = "\n";
   protected $suffix = "\n";
 
-  public function __construct() {
+  private $verbosity;
+
+  public function __construct($verbosity = OutputInterface::VERBOSITY_NORMAL) {
+    $this->verbosity = $verbosity;
 
     $this->cwd = new SplFileInfo(getcwd(), '..', '.');
 
     $this->set('cmd:fail-exit', 1);
+  }
+
+  public function getVerbosity() {
+    return $this->verbosity;
+  }
+
+  public function getVerbosityLevel() {
+    $verbosity = $this->verbosity >> 5;
+    $level = 0;
+
+    while($verbosity) {
+      $level++;
+      $verbosity = $verbosity >> 1;
+    }
+
+    return $level;
   }
 
   public function run() {

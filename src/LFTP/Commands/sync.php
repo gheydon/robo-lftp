@@ -53,7 +53,6 @@ class sync extends CommandBase {
       }
       $command->setDelete();
       $command->setNoOverwrite();
-      $command->setVerbose(1);
 
       if (!empty($items['directories'])) {
         foreach ($items['directories'] as $directory) {
