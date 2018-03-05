@@ -67,6 +67,13 @@ class mirror extends CommandBase {
   }
 
   /**
+   *
+   */
+  public function setSkipNoaccess() {
+    $this->option('skip-noaccess');
+  }
+
+  /**
    * @param int $verbose
    */
   public function setVerbose(int $verbose) {

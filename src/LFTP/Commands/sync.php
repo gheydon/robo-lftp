@@ -25,6 +25,8 @@ class sync extends CommandBase {
 
   protected $separator = ' && ';
 
+  private $skipNoaccess = FALSE;
+
   private $targetDirectory;
 
   /**
@@ -58,6 +60,10 @@ class sync extends CommandBase {
       if ($this->reverse) {
         $command->setReverse();
       }
+      if ($this->skipNoaccess) {
+        $command->setSkipNoAccess();
+      }
+
       $command->setDelete();
       $command->setNoOverwrite();
 
@@ -191,6 +197,13 @@ class sync extends CommandBase {
    */
   public function setReverse(bool $reverse) {
     $this->reverse = $reverse;
+  }
+
+  /**
+   *
+   */
+  public function setSkipNoaccess() {
+    $this->skipNoaccess = TRUE;
   }
 
   /**
