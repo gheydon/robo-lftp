@@ -9,6 +9,8 @@ use Heydon\Robo\Task\LFTP\CommandBase;
 
 class sync extends CommandBase {
 
+  private $dereference = FALSE;
+
   private $directories = [];
 
   private $dryRun = FALSE;
@@ -39,6 +41,9 @@ class sync extends CommandBase {
     foreach ($base as $base => $items) {
       $command = new mirror($this->parent, $base);
 
+      if ($this->dereference) {
+        $command->setDereference();
+      }
       if ($this->dryRun) {
         $command->setDryRun();
       }
@@ -73,6 +78,13 @@ class sync extends CommandBase {
     },$this->commands));
 
     return parent::prepare();
+  }
+
+  /**
+   *
+   */
+  public function setDereference() {
+    $this->dereference = TRUE;
   }
 
   /**
