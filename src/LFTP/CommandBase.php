@@ -40,7 +40,7 @@ abstract class CommandBase {
   /**
    * @var string
    */
-  protected $suffix = '; ';
+  protected $suffix = '';
 
   public function __construct(LFTP $parent) {
     $this->parent = $parent;
@@ -85,7 +85,7 @@ abstract class CommandBase {
       return $this->command . ' ' . $this->arguments;
     }
     else {
-      return $this->prefix . ' ' . implode($this->separator, $this->commands) . ' ' . $this->suffix;
+      return $this->prefix . implode($this->separator, $this->commands) . $this->suffix;
     }
   }
 

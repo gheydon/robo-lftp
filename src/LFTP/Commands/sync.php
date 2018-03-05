@@ -23,6 +23,8 @@ class sync extends CommandBase {
 
   private $reverse = FALSE;
 
+  protected $separator = ' && ';
+
   private $targetDirectory;
 
   /**
