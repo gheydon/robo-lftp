@@ -47,8 +47,8 @@ class sync extends CommandBase {
       if ($this->dryRun) {
         $command->setDryRun();
       }
-      if (!empty($this->excludes)) {
-        $command->setExclude(implode('|', $this->excludes));
+      if (!empty($this->excludes) && ($excludes = $this->buildExcludes($base))) {
+        $command->setExclude($excludes);
       }
       if (isset($this->parallel)) {
         $command->setParallel($this->parallel);
@@ -78,6 +78,43 @@ class sync extends CommandBase {
     },$this->commands));
 
     return parent::prepare();
+  }
+
+  /**
+   * When building the mirror command the excludes need to be relative to the
+   * base directory. So this method converts all the exclude to a relative
+   * path, and filters out anything that is not in the base path.
+   *
+   * @param string $base
+   *
+   * @return string
+   */
+  private function buildExcludes(string $base) {
+    if ($base == '.') {
+      return implode('|', $this->excludes);
+    }
+
+    $excludes = [];
+    foreach ($this->excludes as $exclude) {
+      // Check and see if this is an exclude which applies to all directories
+      // like '.git'
+      if (strpos($exclude, '/') === FALSE) {
+        $excludes[] = $exclude;
+      }
+      // this must be a path so check it it occurs within the current base.
+      else {
+        // If the exclude starts with ./ then string that off before checking if
+        // it is in the base directory.
+        if (substr($exclude, 0, 2) == './') {
+          $exclude = substr($exclude, 2);
+        }
+        if (substr($exclude, 0, strlen($base)) == $base) {
+          $excludes[] = substr($exclude, strlen($base)+1);
+        }
+      }
+    }
+
+    return implode('|', $excludes);
   }
 
   /**
