@@ -100,7 +100,6 @@ class sync extends CommandBase {
    */
   public function setFiles($files) {
     $files = is_array($files) ? $files : [$files];
-    $this->files = $files;
 
     foreach ($files as $file) {
       $this->files[] = $file;
