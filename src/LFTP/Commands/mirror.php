@@ -5,6 +5,7 @@
 
 namespace Heydon\Robo\Task\LFTP\Commands;
 
+use Heydon\Robo\Task\LFTP;
 use Heydon\Robo\Task\LFTP\CommandBase;
 
 class mirror extends CommandBase {
@@ -12,7 +13,7 @@ class mirror extends CommandBase {
   private $destination;
   private $verbose;
 
-  public function __construct(\Heydon\Robo\Task\LFTP $parent, $destination) {
+  public function __construct(LFTP $parent, $destination) {
     parent::__construct($parent);
 
     $this->destination = $destination;
