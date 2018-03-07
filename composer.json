@@ -22,5 +22,10 @@
         "psr-4": {
             "Heydon\\Robo\\Task\\": "src"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
     }
 }
