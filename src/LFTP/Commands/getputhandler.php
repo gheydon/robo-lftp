@@ -55,4 +55,8 @@ abstract class getputhandler extends CommandBase {
   public function setDestinationDirectory(string $destinationDirectory) {
     $this->option('-O', $destinationDirectory);
   }
+
+  public function setDeleteTarget() {
+    $this->option('-e');
+  }
 }
