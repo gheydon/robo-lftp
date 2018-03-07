@@ -43,6 +43,8 @@ abstract class getputhandler extends CommandBase {
   }
 
   /**
+   * Set the -o option to set the name of the target file.
+   * 
    * @param string $destinationFileName
    */
   public function setDestinationFileName($destinationFileName) {
@@ -50,9 +52,18 @@ abstract class getputhandler extends CommandBase {
   }
 
   /**
+   * Set the -O option to set the destination directory.
+   *
    * @param string $destinationDirectory
    */
   public function setDestinationDirectory($destinationDirectory) {
     $this->option('-O', $destinationDirectory);
+  }
+
+  /**
+   * Set option -o to delete the destination before transfer.
+   */
+  public function setDeleteTarget() {
+    $this->option('-e');
   }
 }
