@@ -104,7 +104,10 @@ class LFTP extends BaseTask {
 
     $script = $this->prefix . implode($this->separator, $commands) . $this->suffix;
 
-    $this->printTaskInfo($script);
+    $lftp = $this;
+    array_map(function ($a) use ($lftp) {
+      $lftp->printTaskInfo($a);
+    }, explode("\n", $script));
 
     file_put_contents($file, $script);
 
