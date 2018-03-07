@@ -95,7 +95,7 @@ class LFTP extends BaseTask {
     return call_user_func_array([$this->currentCommand, $fn], $arguments);
   }
 
-  public function buildCommands(): string {
+  public function buildCommands() {
     $file = tempnam(sys_get_temp_dir(), 'lftp');
 
     $commands = array_filter(array_map(function ($a) {
@@ -117,7 +117,7 @@ class LFTP extends BaseTask {
   /**
    * @return SplFileInfo
    */
-  public function getCwd(): SplFileInfo {
+  public function getCwd() {
     return $this->cwd;
   }
 
