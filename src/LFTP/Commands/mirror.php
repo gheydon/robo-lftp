@@ -12,7 +12,7 @@ class mirror extends CommandBase {
   private $destination;
   private $verbose;
 
-  public function __construct(\Heydon\Robo\Task\LFTP $parent, string $destination) {
+  public function __construct(\Heydon\Robo\Task\LFTP $parent, $destination) {
     parent::__construct($parent);
 
     $this->destination = $destination;
@@ -58,7 +58,7 @@ class mirror extends CommandBase {
     $this->option('no-overwrite');
   }
 
-  public function setParallel(int $number) {
+  public function setParallel($number) {
     $this->option('parallel', $number, '=');
   }
 
@@ -76,7 +76,7 @@ class mirror extends CommandBase {
   /**
    * @param int $verbose
    */
-  public function setVerbose(int $verbose) {
+  public function setVerbose($verbose) {
     $this->verbose = $verbose;
   }
 }

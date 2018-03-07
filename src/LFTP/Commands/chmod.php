@@ -32,7 +32,7 @@ class chmod extends CommandBase {
    * @param string $mode
    * @param string $filename
    */
-  public function __construct(LFTP $parent, string $mode, string $filename) {
+  public function __construct(LFTP $parent, $mode, $filename) {
     parent::__construct($parent);
 
     $this->mode = $mode;

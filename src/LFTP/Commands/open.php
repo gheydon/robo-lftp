@@ -80,11 +80,11 @@ class open extends CommandBase {
     $this->remote = http_build_url($parts);
   }
 
-  public function setUser(string $user) {
+  public function setUser($user) {
     $this->user = $user;
   }
 
-  public function setPassword(string $pass) {
+  public function setPassword($pass) {
     $this->pass = $pass;
   }
 

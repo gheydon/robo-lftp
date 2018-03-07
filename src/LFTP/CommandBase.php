@@ -62,14 +62,14 @@ abstract class CommandBase {
   /**
    * @return string
    */
-  public function getCommand(): string {
+  public function getCommand() {
     return $this->command;
   }
 
   /**
    * @param string $command
    */
-  protected function setCommand(string $command) {
+  protected function setCommand($command) {
     $this->command = $command;
   }
 
@@ -96,7 +96,7 @@ abstract class CommandBase {
   /**
    * @return \Heydon\Robo\Task\LFTP
    */
-  public function getParent(): \Heydon\Robo\Task\LFTP {
+  public function getParent() {
     return $this->parent;
   }
 

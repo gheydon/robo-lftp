@@ -3,7 +3,7 @@
     "description": "Robo.li wrapper for the lftp https://lftp.yar.ru/",
     "type": "robo-tasks",
     "require": {
-        "php": ">=7.0",
+        "php": ">=5.6",
         "consolidation/robo": ">=1.0.7",
         "jakeasmith/http_build_url": "^1.0"
     },

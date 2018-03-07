@@ -97,7 +97,7 @@ class sync extends CommandBase {
    *
    * @return string
    */
-  private function buildExcludes(string $base) {
+  private function buildExcludes($base) {
     if ($base == '.') {
       return implode('|', $this->excludes);
     }
@@ -174,7 +174,7 @@ class sync extends CommandBase {
   /**
    * @param int $parallal
    */
-  public function setParallel(int $parallel) {
+  public function setParallel($parallel) {
     $this->parallel = $parallel;
   }
 
@@ -195,7 +195,7 @@ class sync extends CommandBase {
   /**
    * @param bool $reverse
    */
-  public function setReverse(bool $reverse) {
+  public function setReverse($reverse) {
     $this->reverse = $reverse;
   }
 
