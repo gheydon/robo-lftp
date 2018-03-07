@@ -16,7 +16,7 @@ class cd extends CommandBase {
 
   protected $destination;
 
-  public function __construct(\Heydon\Robo\Task\LFTP $parent, $destination) {
+  public function __construct(LFTP $parent, $destination) {
     parent::__construct($parent);
 
     $this->setDestination($destination);
